@@ -16,7 +16,7 @@ RUN apt-get update \
 RUN mkdir -p /opt/steamcmd /opt/necesse /data \
     && curl -sSL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz \
         | tar -C /opt/steamcmd -xzvf - \
-    && /opt/steamcmd/steamcmd.sh +login anonymous +force_install_dir /opt/necesse +app_update 1169370 validate +quit
+    && /opt/steamcmd/steamcmd.sh +force_install_dir /opt/necesse +login anonymous +app_update 1169370 validate +quit
 
 VOLUME ["/data"]
 
