@@ -15,10 +15,17 @@ fi
 
 # Always pull the latest server build before launching
 "${STEAMCMD_DIR}/steamcmd.sh" \
-  +login anonymous \
   +force_install_dir "${NECESSE_DIR}" \
+  +login anonymous \
   +app_update 1169370 \
   +quit
+
+SERVER_JAR="$(find "${NECESSE_DIR}" -maxdepth 5 -type f -name 'Necesse.jar' | head -n 1)"
+
+if [[ -z "${SERVER_JAR}" ]]; then
+  echo "Error: Necesse.jar not found under ${NECESSE_DIR}." >&2
+  exit 1
+fi
 
 WORLD_NAME="${WORLD_NAME:-MyWorld}"
 PORT="${PORT:-14159}"
@@ -26,7 +33,7 @@ SLOTS="${SLOTS:-10}"
 PASSWORD="${PASSWORD:-}"
 PAUSE="${PAUSE:-1}"
 
-exec java -jar Necesse.jar \
+exec java -jar "${SERVER_JAR}" \
   -nogui \
   -datadir "${DATA_DIR}" \
   -world "${WORLD_NAME}" \
