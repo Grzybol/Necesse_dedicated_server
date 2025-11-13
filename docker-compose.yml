@@ -7,6 +7,8 @@ services:
     env_file: ./.env
     volumes:
       - ./data:/data
+      - ./steamcmd:/opt/steamcmd
+      - ./server:/opt/necesse
     ports:
       - "14159:14159/udp"  # change the left side to expose a different external port
     restart: unless-stopped
