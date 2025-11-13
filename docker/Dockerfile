@@ -21,7 +21,8 @@ RUN mkdir -p /opt/steamcmd /opt/necesse /data \
 VOLUME ["/data"]
 
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN sed -i 's/\r$//' /entrypoint.sh \
+    && chmod +x /entrypoint.sh
 
 EXPOSE 14159/udp
 
