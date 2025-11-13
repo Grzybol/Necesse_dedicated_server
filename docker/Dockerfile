@@ -20,7 +20,7 @@ RUN mkdir -p /opt/steamcmd /opt/necesse /data \
 
 VOLUME ["/data"]
 
-COPY docker/entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 14159/udp
