@@ -20,7 +20,26 @@ fi
   +app_update 1169370 \
   +quit
 
-SERVER_JAR="$(find "${NECESSE_DIR}" -maxdepth 5 -type f -name 'Necesse.jar' | head -n 1)"
+find_server_jar() {
+  find "${NECESSE_DIR}" -type f \
+    \( -iname 'necesse.jar' -o -iname 'necesse*.jar' -o -iname 'server.jar' \) \
+    | head -n 1
+}
+
+SERVER_JAR="$(find_server_jar)"
+
+if [[ -z "${SERVER_JAR}" ]]; then
+  # Some Steam releases bundle the dedicated server inside zip archives. Extract
+  # any archives we just received so the Java entrypoint can discover the jar.
+  shopt -s nullglob globstar
+  for archive in "${NECESSE_DIR}"/**/*.zip; do
+    unzip -o "$archive" -d "$(dirname "$archive")"
+  done
+  shopt -u globstar
+  shopt -u nullglob
+
+  SERVER_JAR="$(find_server_jar)"
+fi
 
 if [[ -z "${SERVER_JAR}" ]]; then
   echo "Error: Necesse.jar not found under ${NECESSE_DIR}." >&2
