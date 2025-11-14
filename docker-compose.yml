@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  necesse:
+    build: ./docker
+    container_name: necesse
+    env_file: ./.env
+    volumes:
+      - ./data:/data
+      - ./steamcmd:/opt/steamcmd
+      - ./server:/opt/necesse
+    ports:
+      - "14159:14159/udp"  # change the left side to expose a different external port
+    restart: unless-stopped
+    stop_grace_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
